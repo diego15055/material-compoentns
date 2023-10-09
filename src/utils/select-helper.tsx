@@ -1,17 +1,12 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { styled } from "@mui/system";
 
-import { options } from "./options";
+export const GroupHeader = styled("div")(() => ({
+  position: "sticky",
+  top: "-8px",
+  padding: "4px 10px",
+  backgroundColor: "#F1F1F1",
+}));
 
-export const useHelpers = () => {
-  const { register, handleSubmit, watch, control, setValue } = useForm<any>();
-  const onSubmit: SubmitHandler<any> = (data: any) => console.log(data);
-
-  return {
-    options,
-    control,
-    handleSubmit,
-    onSubmit,
-    register,
-    setValue,
-  };
-};
+export const GroupItems = styled("ul")({
+  padding: 0,
+});

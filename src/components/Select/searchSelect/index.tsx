@@ -1,25 +1,19 @@
 import React, { useCallback } from "react";
-import Autocomplete, { AutocompleteProps } from "@mui/material/Autocomplete";
-import TextField, { TextFieldVariants } from "@mui/material/TextField";
-import { FieldError } from "react-hook-form/dist/types";
-import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import { styled } from "@mui/system";
+import { SelectOptions, SelectProps } from "../../../types/select.common.types";
 
-type SelectOptions = {
-  label: string;
-  value: string | number;
-  disabled?: boolean;
-  firstLetter: string;
-};
+const GroupHeader = styled("div")(() => ({
+  position: "sticky",
+  top: "-8px",
+  padding: "4px 10px",
+  backgroundColor: "#F1F1F1",
+}));
 
-interface SelectProps
-  extends Omit<AutocompleteProps<any, any, any, any>, "renderInput"> {
-  options: SelectOptions[];
-  label: string;
-  variant?: TextFieldVariants;
-  error?: FieldError;
-  helperText?: string;
-  renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
-}
+const GroupItems = styled("ul")({
+  padding: 0,
+});
 
 const Select = React.forwardRef(
   (
@@ -40,6 +34,12 @@ const Select = React.forwardRef(
           helperText={!!error?.message ? error?.message : helperText}
         />
       ),
+      renderGroup = (params) => (
+        <li key={params.key}>
+          <GroupHeader>{params.group}</GroupHeader>
+          <GroupItems>{params.children}</GroupItems>
+        </li>
+      ),
       ...rest
     }: SelectProps,
     ref,
@@ -54,7 +54,9 @@ const Select = React.forwardRef(
             option.value === value.value,
           [],
         )}
+        groupBy={(option) => option.firstLetter}
         renderInput={renderInput}
+        renderGroup={renderGroup}
       />
     );
   },

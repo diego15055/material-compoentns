@@ -3,22 +3,12 @@ import { Controller, FieldValues } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Chip } from "@mui/material";
-import { styled } from "@mui/system";
+import { ControlledSearchSelectProps } from "../../../types/controlled.select.types";
+import { GroupHeader, GroupItems } from "../../../utils/select-helper";
 import {
+  BaseSelectOptions,
   SelectOptions,
-  ControlledSearchSelectProps,
-} from "../../types/controlled.component";
-
-const GroupHeader = styled("div")(() => ({
-  position: "sticky",
-  top: "-8px",
-  padding: "4px 10px",
-  backgroundColor: "#F1F1F1",
-}));
-
-const GroupItems = styled("ul")({
-  padding: 0,
-});
+} from "../../../types/select.common.types";
 
 /**
  * - Example Options Props
@@ -60,7 +50,7 @@ const GroupItems = styled("ul")({
  *      @default false
  *
  *   - disableClearable?: boolean
- *      If `true`, the input can't be cleared.
+ *      If `true`, the basicInput can't be cleared.
  *      @default false
  *
  *  -  rules?: Omit<
@@ -101,6 +91,7 @@ const ControlledSearchSelect = <
       message: `Por favor, selecione um ${label}`,
     },
   },
+  fixedOptions,
   ...rest
 }: ControlledSearchSelectProps<O, TField, boolean, boolean>) => {
   return (
@@ -157,6 +148,14 @@ const ControlledSearchSelect = <
                 helperText={!!error?.message ? error?.message : helperText}
               />
             )}
+            getOptionDisabled={(option) => {
+              if (fixedOptions !== undefined) {
+                return !!fixedOptions.find(
+                  (item: BaseSelectOptions) => item.value === option.value,
+                );
+              }
+              return false;
+            }}
           />
         );
       }}

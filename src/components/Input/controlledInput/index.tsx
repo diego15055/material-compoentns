@@ -2,7 +2,7 @@ import React from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { TextFieldProps } from "@mui/material/TextField";
 import { RegisterOptions } from "react-hook-form/dist/types/validator";
-import { Input } from "../input";
+import { Input } from "../basicInput";
 
 interface ControlledInputProps
   extends Partial<
